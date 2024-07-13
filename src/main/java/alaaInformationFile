@@ -1,0 +1,208 @@
+
+=====> Info [1]
+@Bean
+    public CommandLineRunner commandLineRunner() {
+
+//        // we have concept of anonymous class uaAmer
+//        Animal animal= new Animal() {
+//            @Override
+//            public void canRun() {
+//                System.out.println("This is the anonymous class ");
+//            }
+//        } ;
+//  =======================================
+//        Cat cat = new Cat(){
+//            @Override
+//            public void canRun(){
+//                System.out.println("This cal is implemented in the inner clas suaaemr That is Great mission");
+//            }
+//        } ;
+        //========================================
+//        Animal cat = new Cat() {
+//            @Override
+//            public void canRun() {
+//                System.out.println("This method can Run very fast uaa'mer ");
+//            }
+//
+//            public void carFly() {
+//                System.out.println("This cat can not flyu Thanks very much uaaemr ");
+//            }
+//        };
+        new Animal() {
+            @Override
+            public void canRun() {
+                System.out.println("This anonymous Class implements the interface And calling the function");
+            }
+        }.canRun();
+
+        // Animal is an interface
+        Animal animal = () -> {
+            System.out.println("lamda expression used to implement the single method in the interface You are tryinng to take object from ");
+            System.out.println("If you have single line of code you could remove the carely Brackets");
+        };
+        // You could pass Anonymous inner Class to a function as a parameter
+        // هو دا الاستخدام الاهم لل Anonymous Inner Class ودا هيظر معاك في الFlutter
+
+
+        // This is just Inner Anonymous Class uaAmer ==> Just You took Object From this class uaAlaa
+        // انت عندك دالة واحدة بس
+        // انت هتستخدم ال lamada لما يكون interface وعاوز تعمل منه object والا interface دا مش عنده الا دالة زاحدة بس
+        //   ف انت ممكن تستخدم ال lamada علشان تعمل Implementation لهذه الدالة
+
+        // CommandLineRunner is an interface This is so Good mission
+        // Simple Hint You have here multiple parameter List
+        CommandLineRunner runner = (String... args) -> {
+            System.out.println("This is the run method ");
+        };
+        // commandLinerRunnerFunction will return the runner
+        return runner;
+    }
+
+    =====> Info [2]
+    run Method in CommandLineRunner
+    The CommandLineRunner interface in Spring Boot is a functional interface with
+    a single method, run(String... args). It is used to execute code after the Spring
+    application context has been initialized and all beans are created.
+
+    Purpose of run Method:
+
+    To run specific code at the application startup.
+    To execute any initialization tasks or logic right after the application context is set up.
+    @Bean: Used to define and configure beans in a Spring application context.
+    CommandLineRunner and its run method: Allows you to execute specific code immediately after the Spring Boot application has started,
+    which is useful for initialization tasks and ensuring that your beans are properly set up and functioning as expected
+
+
+   ====> Basic operation for JPA for CRUD ========
+   You need to make these steps first
+   [1] create Entity with its mapping to database Table
+   [2] create Interface that is contains all methods according to business logic
+   [3] create EntityImpl to this interface => You need to use Annotations Like
+        @Repository to connect the EntityImpl with Interface
+        @Transactional for each CrUD Operation
+   [4] You need to pass Reference from the interface to functions in the mainMethod for testing
+       Variable that Holds reference
+
+    @Repository Annotation: Indicates that a class or interface is a part of the persistence layer.
+     It is used for automatic exception translation and to make the role of the class more explicit.
+     Spring Data JPA: Automatically creates proxy instances of repository interfaces at runtime,
+     which are managed by the Spring container.
+     Dependency Injection: Allows you to inject these repository instances into other Spring beans (such as services)
+     to perform CRUD operations and other database interactions.
+     So, while the @Repository annotation itself doesn't connect an interface to its implementation,
+     it marks the interface as a repository,
+     enabling Spring Data JPA to provide the implementation and manage it within the Spring container
+    ================================================================
+    You need to take a look[learn It hard] of JPQL Query language Like HQL Hibernate Query Language
+    ==> You don't need to type native sql anymore or take care of any vendor uaAmer
+    ==> the power in JPQL it is based on entity name and entity fields
+
+
+
+  @Override
+    @Transactional
+    public void delete(Student student) {
+        entityManager.remove(
+                entityManager.contains(student) ? student : entityManager.merge(student)
+        );
+    }
+
+
+ @Override
+    public void retrievingAllStudents() {
+        TypedQuery<Student> theQueryFromJPQL = entityManager.createQuery("From Student", Student.class);
+        System.out.println(theQueryFromJPQL);
+        List<Student> allStudent = theQueryFromJPQL.getResultList();
+        for (Student ele : allStudent) {
+            String singleRow = ele.toString();
+            System.out.println(singleRow);
+        }
+    }
+
+
+    @Override
+    @Transactional
+    public List<Student> findStudentByLastName(String theData) {
+        // preparing the query
+        // All Strings That you type here is based on java Code Not tables in the database
+        TypedQuery<Student> query = entityManager.createQuery("From Student where last_name=:theData", Student.class);
+
+        // last_name:=theData ==> That's mean This is a variable uaAlaa
+        //set the query parameters
+        query.setParameter("theData", theData);
+        // return query result
+        return query.getResultList();
+    }
+
+=========================
+# we need to make some credentials for the database and username with password
+spring.datasource.url=jdbc:mysql://localhost:3306/student_tracker
+spring.datasource.username=springstudent
+spring.datasource.password=springstudent
+
+
+# we need to log sql statements uaAmer
+# this for sql statement
+logging.level.org.hibernate.sql=debug
+# this is used for sql statements values
+logging.level.org.hibernate.orm.jdbc.bind=trace
+
+# How to turn off the Spring Boot banner
+spring.main.banner-mode=off
+
+# we need to reduce logging level. Set logging to warn
+logging.level.root=warn
+
+spring.main.lazy-initialization=true
+
+
+# Enable logging of SQL statements
+spring.jpa.show-sql=true
+
+# Format SQL statements for readability
+spring.jpa.properties.hibernate.format_sql=true
+
+# Log parameters in SQL statements (this is specific to Hibernate)
+spring.jpa.properties.hibernate.use_sql_comments=true
+
+# Configuration JPA/Hibernate to auto create the tables
+spring.jpa.hibernate.ddl-auto=create
+
+=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
